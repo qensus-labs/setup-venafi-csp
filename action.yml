@@ -1,0 +1,41 @@
+name: venafi-codesigning-wrapper-action
+author: avwsolutions
+description: 'Venafi CodeSigning Protectwrapper that simplifies using Linux based signers with Github Actions'
+branding:
+  icon: 'package'
+  color: 'blue'
+inputs:
+  architecture:
+    description: 'The running system  architecture, either "intel" or "arm" based'
+    required: false
+    default: 'intel'
+  venafi-csc-url:
+    description: 'CodeSign Protect Client Downloads page'
+    required: false
+    default: 'https://localhost/csc'
+  venafi-version:
+    description: 'Version of CSP driver to install'
+    required: false
+    default: '24.1.0'
+  include-config:
+    description: 'Generates a default configuration that sets the default URLs'
+    required: false
+    default: 'false'
+  venafi-auth-url:
+    description: 'The CSP authorization URL'
+    required: false
+    default: 'https://localhost/vedauth'
+  venafi-hsm-url:
+    description: 'The TPP Hardware Security Module (HSM) backend URL'
+    required: false
+    default: 'https://localhost/vedhsm'
+outputs:
+  venafi-csp-cached-config:
+    description: 'Configuration of the cached CSP Driver package'
+  venafi-csp-cached-path:
+    description: 'Path of the cached CSP Driver package'
+  venafi-csp-cached-version:
+    description: 'Version of the cached CSP Driver package'
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

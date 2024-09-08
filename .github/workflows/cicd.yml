@@ -1,0 +1,13 @@
+name: "units-test"
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  units:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - run: npm ci
+    - run: npm test
+    - run: npx eslint action.js
