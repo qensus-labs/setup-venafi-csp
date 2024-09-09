@@ -169,7 +169,7 @@ async function installVenafiCSP(cachedToolPath, packageName, currentOs, currentD
 }
 
 // Configuration function to configure default parameters for Venafi_CSP platform connectivity. 
-async function setDefaultParams(currentOs, cachedPath, authURL, hsmURL) {
+async function setDefaultParams(currentOs, authURL, hsmURL) {
   var result = "";
   const options = {
     listeners: {
@@ -179,19 +179,18 @@ async function setDefaultParams(currentOs, cachedPath, authURL, hsmURL) {
 
   switch (currentOs) {
     case "Linux":
-      await exec.exec(cachedPath, ['seturl',util.format("%s=%s",'--authurl', authURL),util.format("%s=%s",'--hsmurl', hsmURL)] );
-      await exec.exec(cachedPath, ['option','--show'], options );
+      await exec.exec('pkcs11config', ['seturl',util.format("%s=%s",'--authurl', authURL),util.format("%s=%s",'--hsmurl', hsmURL)] );
+      await exec.exec('pkcs11config', ['option','--show'], options );
       break;
 
     case "Windows_NT":
     default:
-      await exec.exec(cachedPath, ['seturl',util.format("%s=%s",'--authurl', authURL),util.format("%s=%s",'--hsmurl', hsmURL)] );
-      await exec.exec(cachedPath, ['option','--show'], options );
+      await exec.exec('cspconfig.exe', ['seturl',util.format("%s=%s",'--authurl', authURL),util.format("%s=%s",'--hsmurl', hsmURL)] );
+      await exec.exec('cspconfig.exe', ['option','--show'], options );
       break;
   }
   return result;
 }
-
 
 // Function too get the package related information and returns it in a formatted way.
 function getPackageInfo(baseURL, currentOs, currentDistro, currentFamily, architecture, version) {
@@ -389,15 +388,27 @@ async function run(tempDir, toolName, version, baseURL, authURL, hsmURL, current
   let cachedConfig
 
   if (core.getInput('include-config') == 'true') {
-    cachedConfig = await setDefaultParams(currentOs, cachedPath, authURL, hsmURL);
+    var cachedConfigJson = {};
+    cachedConfig = await setDefaultParams(currentOs, authURL, hsmURL);
+    var configLines = cachedConfig.match(/^\s*(PKS SERVER URL|HSM SERVER URL|GRANTEE|AUTH SERVER URL|TIMESTAMP SERVER URL|CSC SERVER URL)\s*=\s*(https?:\/\/[^\s]+)\/?$/gm);
+    if (configLines) {
+      configLines.forEach(line => {
+        const [key, value] = line.split('=').map(item => item.trim());
+        const jsonKey = key.replace(/\s+/g, '_').toUpperCase();
+        cachedConfigJson[jsonKey] = value;
+      });
+    }
+    // set a an output of this action incase future steps need the path to the tool.
+    core.setOutput("venafi-csp-cached-version", version);
+    core.setOutput("venafi-csp-cached-path", cachedPath);
+    core.setOutput("venafi-csp-cached-config", cachedConfigJson);
   }
-
+  else {
+    // set a an output of this action incase future steps need the path to the tool.
+    core.setOutput("venafi-csp-cached-version", version);
+    core.setOutput("venafi-csp-cached-path", cachedPath);
+  }
   core.info(`CSP Driver version: '${version}' has been cached at ${cachedPath}`);
-
-  // set a an output of this action incase future steps need the path to the tool.
-  core.setOutput("venafi-csp-cached-config", cachedConfig);
-  core.setOutput("venafi-csp-cached-path", cachedPath);
-  core.setOutput("venafi-csp-cached-version", version);
 }
 
 module.exports = {
