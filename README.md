@@ -33,7 +33,7 @@ The following optional inputs:
 | `venafi-auth-url` | Trust Protection Platform authentication server URL, which defaults to `https://localhost/vedauth` for local development. |
 | `venafi-hsm-url` | Trust Protection Platform virtual HSM URL, which defaults to `https://localhost/vedhsm` for local development. |
 | `include-config` | Does an initial `set-url` to set the authentication server and virtual HSM URLs, which defaults to `false` for local development. |
-| `architecture` | System architecture to provide the corret installation, which defaults to `intel`. Other valid option is `arm`.  |
+| `architecture` | System architecture to provide the correct installation, which defaults to `intel`. Another valid option is `arm`.  |
 
 *Note: Never set the actual password as clear text, but instead register the `password` as **Github Secret**.*
 
@@ -46,7 +46,7 @@ The following outputs:
 | `venafi-csp-cached-path` | Path of the cached CSP Driver package. |
 | `venafi-csp-cached-version` | Version of the cached CSP Driver package. |
 
-Add the following entry to your Github workflow YAML file as bare minimum input.:
+Add the following entry to your Github workflow YAML file as bare minimum input.
 
 ```yaml
 uses: qensus-labs/setup-venafi-csp@v1.0.0
@@ -73,14 +73,14 @@ Currently our support differs per OS:
 
 ### Considerations using GitHub-hosted runners
 
-`setup-venafi-csp` GitHub Actions can be used for both `GitHub-hosted` or `self-hosted` runners. During development we tested common codesigning scenarios and that the driver is setup correctly, which includes the actual installation and signing activities. Although the `GitHub-hosted` runners do support `public`,  `private` repositories and automatically decommision the VM, some data residu can reside. Because of this potential risk you should understand that it's still running on `shared` infrastructure.
+`setup-venafi-csp` GitHub Actions can be used for both `GitHub-hosted` or `self-hosted` runners. During development we tested common codesigning scenarios and that the driver is set up correctly, which includes the actual installation and signing activities. Although the `GitHub-hosted` runners do support `public`,  `private` repositories and automatically decommission the VM, some data residue can reside. Because of this potential risk you should understand that it's still running on `shared` infrastructure.
 
-Use cases with low security requirements could benefit `GitHub-hosted` runners. When higher security requirements need to be met, we strongly advice to use `Self-hosted` runnners, which is our default advice to keep your certificates secure.
+Use cases with low security requirements could benefit `GitHub-hosted` runners. When higher security requirements need to be met, we strongly advice to use `Self-hosted` runners, which is our default advise to keep your certificates secure.
 
 ## Usage
 
-Below various examples how you can implement and integrate `setup-venafi-csp` together with your favorite code signing activities.
-The boilerplate code go from initial configuration to full implementation examples using `jarsigner` and `signtool`.
+Below are various examples of how you can implement and integrate `setup-venafi-csp` together with your favorite code signing activities.
+The boilerplate code examples goes from initial configuration to full implementation examples using `jarsigner` and `signtool`.
 
 ### Example driver setup using minimal parameters
 
@@ -138,7 +138,7 @@ See the [Venafi CodeSign Protect: Python (PyPi) Package](https://pypi.org/projec
 
 *Notes*:
 - When using a *shared* runner, only update *runs-on:* parameter value with `ubuntu-latest`.
-- More advanced parameters are available at  [Venafi CodeSign Protect: Python (PyPi) Package](https://pypi.org/project/venafi-csp/).
+- More advanced parameters are available at [Venafi CodeSign Protect: Python (PyPi) Package](https://pypi.org/project/venafi-csp/).
 
 ```yaml
 jobs:
@@ -220,8 +220,8 @@ See the [Venafi CodeSign Protect: Python (PyPi) Package](https://pypi.org/projec
 
 *Notes*:
 - When using a *shared* runner, only update *runs-on:* parameter value with `windows-latest`.
-- Signtool has to trust the Signer CA for proper verification, this requires to import the certificate chain using `EXTRA_TRUSTED_TLS_CA_CERTS`.
-- More advanced parameters are available at  [Venafi CodeSign Protect: Python (PyPi) Package](https://pypi.org/project/venafi-csp/).
+- Signtool has to trust the Signer CA for proper verification, this requires importing the certificate chain using `EXTRA_TRUSTED_TLS_CA_CERTS`.
+- More advanced parameters are available at [Venafi CodeSign Protect: Python (PyPi) Package](https://pypi.org/project/venafi-csp/).
 
 ```yaml
 jobs:
