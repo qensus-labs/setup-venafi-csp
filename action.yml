@@ -1,9 +1,9 @@
-name: venafi-codesigning-wrapper-action
-author: avwsolutions
+name: 'Setup Venafi CSP'
+author: 'Qensus Labs'
 description: 'Venafi CodeSigning Protectwrapper that simplifies using Linux based signers with Github Actions'
 branding:
   icon: 'package'
-  color: 'blue'
+  color: 'yellow'
 inputs:
   architecture:
     description: 'The running system  architecture, either "intel" or "arm" based'
