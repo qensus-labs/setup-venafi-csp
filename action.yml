@@ -1,6 +1,6 @@
 name: 'Setup Venafi CSP'
 author: 'Qensus Labs'
-description: 'Venafi CodeSigning Protectwrapper that simplifies using Linux based signers with Github Actions'
+description: 'Set up your GitHub Actions workflow with a specific version of Venafi CodeSign Protect'
 branding:
   icon: 'package'
   color: 'yellow'
