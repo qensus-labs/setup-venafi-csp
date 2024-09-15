@@ -1,7 +1,7 @@
 {
   "name": "setup-venafi-csp",
   "version": "1.0.0",
-  "description": "Repository that contains a wrapper that simplifies the setup using Venafi CodeSign Protect driver with Github Actions",
+  "description": "Repository that contains a GitHub Actions workflow that does setup the driver with a specific version of Venafi CodeSign Protect",
   "main": "index.js",
   "scripts": {
     "test": "jest --coverage"
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/qensus-labs/setup-venafi-csp.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Qensus-Labs",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/qensus-labs/setup-venafi-csp/issues"
