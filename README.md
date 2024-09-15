@@ -192,10 +192,9 @@ jobs:
           TPP_HSM_URL: 'https://my-tpp/vedhsm'
           TPP_USERNAME: signer
           TPP_PASSWORD: ${{ secrets.TPP_PASSWORD }}
-          VENAFI_CLIENT_TOOLS_DIR: '${{ runner.tool_cache }}/CSPDriver/24.1.0/x64/opt/venafi/codesign'
           INPUT_PATH: foo.jar
           CERTIFICATE_LABEL: github-signer-development-codesigner
-     - name: Verify Artifact with Jarsigner
+      - name: Verify Artifact with Jarsigner
         run: python -mvenafi_csp.jarsigner_verify_command
         env:
           TPP_AUTH_URL: 'https://my-tpp/vedauth'
