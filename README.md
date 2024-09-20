@@ -11,6 +11,7 @@ if you are not familiar with `Code Signing` or `Venafi CodeSign Protect`, please
  - [Expected Outputs](#expected-outputs)
  - [Compatibility](#compatibility)
    - [Considerations using GitHub-hosted runners](#considerations-using-github-hosted-runners)
+   - [Caveats using Self-hosted runners](#caveats-using-self-hosted-runners)
  - [Usage](#usage)
    - [Example driver setup using minimal parameters](#example-driver-setup-using-minimal-parameters)
    - [Example driver setup including initial configuration](#example-driver-setup-including-initial-configuration)
@@ -77,10 +78,23 @@ Currently our support differs per OS:
 
 Use cases with low security requirements could benefit `GitHub-hosted` runners. When higher security requirements need to be met, we strongly advice to use `Self-hosted` runners, which is our default advise to keep your certificates secure.
 
+More information on `Self-hosted` `action-runners` can be found in the [Official documentation](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/adding-self-hosted-runners).
+
+### Caveats using Self-hosted runners
+
+When implementing an `unattended workflow` you must set up the `actions-runner` application as a service.  `actions-runner` applications that are started using the `Shell mode` your signing operations may require `interaction`, such as approving a Certificate import.
+This applies to both the `Linux` and `Windows` operating system.
+
+Addtional for `Windows` based `actions-runner` application services you may want to run he service with enough privileges to `install` and `adjust` system configuration. Easiest way is to set the service account to '**NT AUTHORITY\SYSTEM**'. This ensures both `setup-venafi-csp` and `Python` packages can be successfully installed. Additionally ensure you don't set the `interactive` flag.
+
+More information on configuring `actions-runners` as a service can be found in the [Official documentation](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/configuring-the-self-hosted-runner-application-as-a-service).
+
 ## Usage
 
 Below are various examples of how you can implement and integrate `setup-venafi-csp` together with your favorite code signing activities.
 The boilerplate code examples goes from initial configuration to full implementation examples using `jarsigner` and `signtool`.
+
+Looking for some real Github Actions examples? We got you covered, just take a look at our [Venafi CodeSign Protect Samples](https://github.com/qensus-labs/venafi-csp-samples) demo repository.
 
 ### Example driver setup using minimal parameters
 
